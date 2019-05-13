@@ -3,6 +3,7 @@ package com.walter.service;
 
 import com.walter.bean.User;
 import com.walter.dao.UserDao;
+import com.walter.pool.MyDataSourceFactory;
 import com.walter.util.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
@@ -15,6 +16,10 @@ public class UserServiceImpl implements UserService {
         sqlSession = MyBatisUtil.getSqlSession();
         //最后记得关闭
         //sqlSession.close();
+    }
+
+    public void closeSqlSession() {
+        sqlSession.close();
     }
 
     @Override
@@ -44,7 +49,9 @@ class test {
 
         UserServiceImpl userService = new UserServiceImpl();
 
-        /*User user = new User();
+        MyDataSourceFactory.dataSourceStatus();
+
+        User user = new User();
         user.setUsername("walter");
         user.setPassword("123");
         System.out.println(user.getId());
@@ -52,14 +59,21 @@ class test {
         System.out.println(user.getId());
 
         List<User> userList = userService.select();
-        System.out.println(userList);*/
+        System.out.println(userList);
 
-        User user = userService.selectById(1);
+        user = userService.selectById(1);
         System.out.println(user);
 
-        Thread.sleep(5000);
+        for (int i = 5; i >= 0; --i) {
+            System.out.println(i);
+            Thread.sleep(1000);
+        }
         //如果这个空挡别的sqlsession修改了数据库，这里是不知道的
         user = userService.selectById(1);
         System.out.println(user);
+
+
+        userService.closeSqlSession();
+        MyDataSourceFactory.dataSourceStatus();
     }
 }
