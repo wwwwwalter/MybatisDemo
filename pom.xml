@@ -10,7 +10,7 @@
   <modules>
     <module>JdbcDemo</module>
   </modules>
-  <packaging>pom</packaging>
+  <packaging>war</packaging>
 
   <name>Mybatis Maven Webapp</name>
 
