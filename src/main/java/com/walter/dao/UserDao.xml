@@ -21,4 +21,9 @@
     <select id="select" resultMap="userMapper">
         select id,name as username,password from user;
     </select>
+
+    <select id="selectById" resultMap="userMapper">
+        select id ,name as username,password from user where id=#{id}
+    </select>
+
 </mapper>

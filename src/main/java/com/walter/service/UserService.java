@@ -8,4 +8,6 @@ public interface UserService {
     void insert(User user);
 
     List<User> select();
+
+    User selectById(int id);
 }
