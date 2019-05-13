@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserService {
     void insert(User user);
 
-    List<User> select();
+    List<User> selectAll();
 
-    User selectById(int id);
+
 }

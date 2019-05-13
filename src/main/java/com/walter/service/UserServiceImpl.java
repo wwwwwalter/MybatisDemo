@@ -2,7 +2,7 @@ package com.walter.service;
 
 
 import com.walter.bean.User;
-import com.walter.dao.UserDao;
+import com.walter.dao.UserMapper;
 import com.walter.pool.MyDataSourceFactory;
 import com.walter.util.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
@@ -24,22 +24,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void insert(User user) {
-        UserDao userDao = sqlSession.getMapper(UserDao.class);
+        UserMapper UserMapper = sqlSession.getMapper(UserMapper.class);
         sqlSession.insert("insert", user);
     }
 
     @Override
-    public List<User> select() {
-        UserDao userDao = sqlSession.getMapper(UserDao.class);
-        List<User> userList = userDao.select();
+    public List<User> selectAll() {
+        UserMapper UserMapper = sqlSession.getMapper(UserMapper.class);
+        List<User> userList = UserMapper.selectAll();
         return userList;
     }
 
-    @Override
-    public User selectById(int id) {
-        UserDao userDao = sqlSession.getMapper(UserDao.class);
-        return userDao.selectById(id);
-    }
+
 }
 
 
@@ -52,25 +48,14 @@ class test {
         MyDataSourceFactory.dataSourceStatus();
 
         User user = new User();
-        user.setUsername("walter");
+        user.setName("walter");
         user.setPassword("123");
         System.out.println(user.getId());
         userService.insert(user);
         System.out.println(user.getId());
 
-        List<User> userList = userService.select();
+        List<User> userList = userService.selectAll();
         System.out.println(userList);
-
-        user = userService.selectById(1);
-        System.out.println(user);
-
-        for (int i = 5; i >= 0; --i) {
-            System.out.println(i);
-            Thread.sleep(1000);
-        }
-        //如果这个空挡别的sqlsession修改了数据库，这里是不知道的
-        user = userService.selectById(1);
-        System.out.println(user);
 
 
         userService.closeSqlSession();
