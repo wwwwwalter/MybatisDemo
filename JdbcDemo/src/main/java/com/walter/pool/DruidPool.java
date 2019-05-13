@@ -10,6 +10,7 @@ import java.util.Properties;
 public class DruidPool {
     private static DruidDataSource dataSource = null;
 
+    //先建一个空池子
     static {
         try {
             Properties properties = new Properties();
@@ -21,6 +22,7 @@ public class DruidPool {
         }
     }
 
+    //当有人来要connection时创建10个，返回一个
     public static Connection getConnection() {
         try {
             return dataSource.getConnection();
@@ -28,5 +30,9 @@ public class DruidPool {
             e.printStackTrace();
             throw new RuntimeException("服务器忙");
         }
+    }
+
+    public static void poolStatus(){
+        System.out.println(dataSource);
     }
 }

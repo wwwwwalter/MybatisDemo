@@ -1,5 +1,6 @@
 package com.walter.service;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.walter.pool.DruidPool;
 
 import java.sql.Connection;
@@ -12,10 +13,10 @@ public class JDBC_Druid {
         String username = "walter";
         String password = "walterisno1";
         String sql = "select * from user where name=? and password=?";
-        DruidPool druidPool = new DruidPool();
         try (
-                Connection connection = druidPool.getConnection();
+                Connection connection = DruidPool.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
+            DruidPool.poolStatus();
             statement.setString(1, username);
             statement.setString(2, password);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -30,6 +31,7 @@ public class JDBC_Druid {
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
+        DruidPool.poolStatus();
 
     }
 }
